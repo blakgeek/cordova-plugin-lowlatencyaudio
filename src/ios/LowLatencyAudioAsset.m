@@ -24,13 +24,13 @@
 {
     self = [super init];
     if(self) {
-        voices = [[NSMutableArray alloc] init];  
+        voices = [[NSMutableArray alloc] init];
         
         NSURL *pathURL = [NSURL fileURLWithPath : path];
         
         for (int x = 0; x < [numVoices intValue]; x++) {
             AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:pathURL error: NULL];
-            player.volume = volume.floatValue;
+            maxVolume = volume.floatValue;
             [player prepareToPlay];
             [voices addObject:player];
         }
@@ -45,7 +45,26 @@
     AVAudioPlayer * player = [voices objectAtIndex:playIndex];
     [player setCurrentTime:0.0];
     player.numberOfLoops = 0;
+    
+    player.volume = maxVolume;
     [player play];
+    playIndex += 1;
+    playIndex = playIndex % [voices count];
+}
+
+- (void) fadeIn:(NSNumber*) duration
+{
+    NSLog( @"fading in over %@", duration);
+    if (audioFaderQueue == nil) {
+        audioFaderQueue = [[NSOperationQueue alloc] init];
+    }
+    
+    AVAudioPlayer * player = [voices objectAtIndex:playIndex];
+    [player setCurrentTime:0.0];
+    player.numberOfLoops = 0;
+    player.volume = 0.0;
+    MXAudioPlayerFadeOperation* fade = [[MXAudioPlayerFadeOperation alloc] initFadeWithAudioPlayer:player toVolume: maxVolume overDuration: duration.doubleValue];
+    [audioFaderQueue addOperation:fade];
     playIndex += 1;
     playIndex = playIndex % [voices count];
 }
@@ -55,6 +74,16 @@
     for (int x = 0; x < [voices count]; x++) {
         AVAudioPlayer * player = [voices objectAtIndex:x];
         [player stop];
+    }
+}
+
+- (void) fadeOut:(NSNumber*) duration
+{
+    for (int x = 0; x < [voices count]; x++) {
+        AVAudioPlayer * player = [voices objectAtIndex:x];
+        MXAudioPlayerFadeOperation* fade = [[MXAudioPlayerFadeOperation alloc] initFadeWithAudioPlayer:player toVolume: 0 overDuration: duration.doubleValue];
+        fade.stopAfterFade = YES;
+        [audioFaderQueue addOperation: fade];
     }
 }
 
@@ -69,7 +98,24 @@
     playIndex = playIndex % [voices count];
 }
 
-- (void) unload 
+- (void) fadeInLoop: (NSNumber*) duration
+{
+    if (audioFaderQueue == nil) {
+        audioFaderQueue = [[NSOperationQueue alloc] init];
+    }
+    
+    [self stop];
+    AVAudioPlayer *player = [voices objectAtIndex:playIndex];
+    [player setCurrentTime:0.0];
+    player.numberOfLoops = -1;
+    player.volume = 0.0;
+    MXAudioPlayerFadeOperation* fade = [[MXAudioPlayerFadeOperation alloc] initFadeWithAudioPlayer:player toVolume: maxVolume overDuration: duration.doubleValue];
+    [audioFaderQueue addOperation:fade];
+    playIndex += 1;
+    playIndex = playIndex % [voices count];
+}
+
+- (void) unload
 {
     [self stop];
     for (int x = 0; x < [voices count]; x++) {

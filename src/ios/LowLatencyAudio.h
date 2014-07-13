@@ -30,8 +30,11 @@
 - (void) preloadFX:(CDVInvokedUrlCommand *)command;
 - (void) preloadAudio:(CDVInvokedUrlCommand *)command;
 - (void) play:(CDVInvokedUrlCommand *)command;
+- (void) fadeIn:(CDVInvokedUrlCommand *)command;
 - (void) stop:(CDVInvokedUrlCommand *)command;
+- (void) fadeOut:(CDVInvokedUrlCommand *)command;
 - (void) loop:(CDVInvokedUrlCommand *)command;
+- (void) fadeInLoop:(CDVInvokedUrlCommand *)command;
 - (void) unload:(CDVInvokedUrlCommand *)command;
 
 

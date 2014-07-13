@@ -19,16 +19,26 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVAudioPlayer.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import "MXAudioPlayerFadeOperation.h"
+
+static NSOperationQueue *audioFaderQueue = nil;
+static MXAudioPlayerFadeOperation *fadeIn = nil;
+static MXAudioPlayerFadeOperation *fadeOut = nil;
 
 
 @interface LowLatencyAudioAsset : NSObject {
     NSMutableArray* voices;
     int playIndex;
+    float maxVolume;
 }
 
 -(id) initWithPath:(NSString*) path withVoices:(NSNumber*) numVoices withVolume:(NSNumber*) volume;
 - (void) play;
+- (void) fadeIn:(NSNumber*) duration;
 - (void) stop;
+- (void) fadeOut:(NSNumber*) duration;
 - (void) loop;
+- (void) fadeInLoop:(NSNumber*) duration;
 - (void) unload;
 @end
