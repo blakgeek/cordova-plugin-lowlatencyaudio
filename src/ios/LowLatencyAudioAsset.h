@@ -41,4 +41,5 @@ static MXAudioPlayerFadeOperation *fadeOut = nil;
 - (void) loop;
 - (void) fadeInLoop:(NSNumber*) duration;
 - (void) unload;
+- (void) setVolume:(NSNumber*) volume;
 @end

@@ -309,6 +309,37 @@ NSString *PRELOAD_AUDIO_MSG = @"Preloading Audio - %@";
     }];
 }
 
+- (void)setVolume:(CDVInvokedUrlCommand *)command {
+
+    NSString *callbackId = command.callbackId;
+    NSArray *arguments = command.arguments;
+    NSString *audioID = [arguments objectAtIndex:0];
+    NSNumber *volume = [command argumentAtIndex:1];
+
+    NSLog(@"unload - %@", audioID);
+
+    [self.commandDelegate runInBackground:^{
+
+        CDVPluginResult *pluginResult;
+        if (audioMapping) {
+            NSObject *asset = [audioMapping objectForKey:audioID];
+            if ([asset isKindOfClass:[LowLatencyAudioAsset class]]) {
+                LowLatencyAudioAsset *_asset = (LowLatencyAudioAsset *) asset;
+                [_asset setVolume:volume];
+            } else if ([asset isKindOfClass:[NSNumber class]]) {
+                NSNumber *_asset = (NSNumber *) asset;
+                AudioServicesDisposeSystemSoundID([_asset intValue]);
+            }
+
+            [audioMapping removeObjectForKey:audioID];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:UNLOAD_REQUESTED];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:ERROR_MISSING_REFERENCE];
+        }
+
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+    }];
+}
 - (void)unload:(CDVInvokedUrlCommand *)command {
 
     NSString *callbackId = command.callbackId;

@@ -36,6 +36,7 @@
 - (void) loop:(CDVInvokedUrlCommand *)command;
 - (void) fadeInLoop:(CDVInvokedUrlCommand *)command;
 - (void) unload:(CDVInvokedUrlCommand *)command;
+- (void) setVolume:(CDVInvokedUrlCommand *)command;
 
 
 //Instance Methods  

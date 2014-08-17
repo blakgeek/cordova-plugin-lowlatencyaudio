@@ -10,16 +10,15 @@ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
-package com.rjfun.cordova.plugin;
-
-import java.io.IOException;
+package com.blakgeek.cordova.plugin;
 
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
+
+import java.io.IOException;
 
 public class PolyphonicVoice implements OnPreparedListener, OnCompletionListener {
 
@@ -32,8 +31,9 @@ public class PolyphonicVoice implements OnPreparedListener, OnCompletionListener
 	
 	private MediaPlayer mp;
 	private int state;
-	
-	public PolyphonicVoice( AssetFileDescriptor afd )  throws IOException
+    private float volume = 1.0f;
+
+    public PolyphonicVoice( AssetFileDescriptor afd )  throws IOException
 	{
 		state = INVALID;
 		mp = new MediaPlayer();
@@ -41,10 +41,20 @@ public class PolyphonicVoice implements OnPreparedListener, OnCompletionListener
 		mp.setAudioStreamType(AudioManager.STREAM_MUSIC);  
 		mp.prepare();
 	}
-	
+
+    public void setVolume(float volume) {
+
+        this.volume = volume;
+        mp.setVolume(this.volume, this.volume);
+    }
+
+    public float getVolume() {
+        return this.volume;
+    }
+
 	public void play() throws IOException
 	{
-		invokePlay( false );
+		invokePlay(false);
 	}
 	
 	private void invokePlay( Boolean loop )
@@ -128,4 +138,8 @@ public class PolyphonicVoice implements OnPreparedListener, OnCompletionListener
 			}
 		}
 	}
+
+    public boolean isPlaying() {
+        return mp.isLooping() || mp.isPlaying();
+    }
 }

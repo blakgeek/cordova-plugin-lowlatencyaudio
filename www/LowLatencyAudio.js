@@ -1,4 +1,3 @@
-
     /*
      *
      * Licensed to the Apache Software Foundation (ASF) under one
@@ -99,7 +98,7 @@
             }
         },
 
-        play: function (id, cfg) {
+        play: function (id) {
             if (typeof arguments[1] === 'object') {
                 var cfg = arguments[1],
                     successFn = cfg.success || emptyFn,
@@ -110,7 +109,7 @@
             }
         },
 
-        loop: function (id, cfg) {
+        loop: function (id) {
             if (typeof arguments[1] === 'object') {
                 var cfg = arguments[1],
                     successFn = cfg.success || emptyFn,
@@ -123,6 +122,7 @@
 
         fadeIn: function (id, cfg) {
 
+            cfg = cfg || {};
             var successFn = cfg.success || emptyFn,
                 failFn = cfg.fail || emptyFn;
 
@@ -131,14 +131,15 @@
 
         fadeInLoop: function (id, cfg) {
 
+            cfg = cfg || {};
             var successFn = cfg.success || emptyFn,
                 failFn = cfg.fail || emptyFn;
-
             cordova.exec(successFn, failFn, "LowLatencyAudio", "fadeInLoop", [id, cfg.duration || 1.0]);
         },
 
         fadeOut: function (id, cfg) {
 
+            cfg = cfg || {};
             var successFn = cfg.success || emptyFn,
                 failFn = cfg.fail || emptyFn;
 
@@ -148,8 +149,7 @@
         stop: function (id, cfg) {
 
             if (typeof arguments[1] === 'object') {
-                var cfg = arguments[1],
-                    successFn = cfg.success || emptyFn,
+                var successFn = cfg.success || emptyFn,
                     failFn = cfg.fail || emptyFn;
                 cordova.exec(successFn, failFn, "LowLatencyAudio", "stop", [id]);
             } else {
@@ -159,15 +159,25 @@
 
         unload: function (ids, cfg) {
 
+            cfg = cfg || {};
             var successFn = cfg.success || emptyFn,
                 failFn = cfg.fail || emptyFn;
             
             [].concat(ids).forEach(function (id) {
-                cordova.exec(success, fail, "LowLatencyAudio", "unload", [id]);
+                cordova.exec(successFn, failFn, "LowLatencyAudio", "unload", [id]);
             });
         },
 
-        // backword compatible versions of functions
+	    setVolume: function(ids, volume, cfg) {
+			cfg = cfg || {};
+	        var successFn = cfg.success || emptyFn,
+	            failFn = cfg.fail || emptyFn;
+		    [].concat(ids).forEach(function (id) {
+				cordova.exec(successFn, failFn, "LowLatencyAudio", "setVolume", [id, volume]);
+			});
+	    },
+
+        // backward compatible versions of functions
         _stop: function (id, success, fail) {
             return cordova.exec(success, fail, "LowLatencyAudio", "stop", [id]);
         },

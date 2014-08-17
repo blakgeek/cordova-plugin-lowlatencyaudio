@@ -30,9 +30,9 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/LowLatencyAudio.java" target-dir="src/com/rjfun/cordova/plugin" />
-        <source-file src="src/android/LowLatencyAudioAsset.java" target-dir="src/com/rjfun/cordova/plugin" />
-        <source-file src="src/android/PolyphonicVoice.java" target-dir="src/com/rjfun/cordova/plugin" />
+        <source-file src="src/android/com/blakgeek/cordova/plugin/LowLatencyAudio.java" target-dir="src/com/blakgeek/cordova/plugin/" />
+        <source-file src="src/android/com/blakgeek/cordova/plugin/LowLatencyAudioAsset.java" target-dir="src/com/blakgeek/cordova/plugin/" />
+        <source-file src="src/android/com/blakgeek/cordova/plugin/PolyphonicVoice.java" target-dir="src/com/com/blakgeek/cordova/plugin/" />
         
      </platform>
      

@@ -52,6 +52,13 @@
     playIndex = playIndex % [voices count];
 }
 
+- (void)setVolume:(NSNumber *)volume {
+    for (int x = 0; x < [voices count]; x++) {
+        AVAudioPlayer * player = [voices objectAtIndex:x];
+        player.volume = [volume floatValue];
+    }
+}
+
 - (void) fadeIn:(NSNumber*) duration
 {
     NSLog( @"fading in over %@", duration);
