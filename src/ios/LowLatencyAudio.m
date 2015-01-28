@@ -57,6 +57,7 @@ NSString *PRELOAD_AUDIO_MSG = @"Preloading Audio - %@";
             NSString *pathFromWWW = [NSString stringWithFormat:@"%@/%@", basePath, assetPath];
 
 
+            if(logging
             NSLog(@"basePath: %@", basePath);
             NSLog(@"path: %@", path);
             if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {

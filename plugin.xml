@@ -2,10 +2,10 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.blakgeek.cordova.plugin.lowlatencyaudio"
-    version="1.1.3">
+    version="1.2.0">
       
     <name>LowLatencyAudio</name>
-    <author>Andrew Trice, updated by Raymond Xie, and then by blakgeek</author>
+    <author>Andrew Trice, updated by Raymond Xie, Carlos "blakgeek" Lawton</author>
 	<description>Cordova/PhoneGap 3+ Plugin to support Low Latency and Polyphonic Audio Playback on Android and iOS, must have for mobile apps/games, as HTML5 audio in mobile browsers is really poor.</description>
     
 	<license>MIT</license>
@@ -30,9 +30,9 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/com/blakgeek/cordova/plugin/LowLatencyAudio.java" target-dir="src/com/blakgeek/cordova/plugin/" />
-        <source-file src="src/android/com/blakgeek/cordova/plugin/LowLatencyAudioAsset.java" target-dir="src/com/blakgeek/cordova/plugin/" />
-        <source-file src="src/android/com/blakgeek/cordova/plugin/PolyphonicVoice.java" target-dir="src/com/com/blakgeek/cordova/plugin/" />
+        <source-file src="src/android/com/blakgeek/cordova/plugin/LowLatencyAudio.java" target-dir="src/com/blakgeek/cordova/plugin/lowlatencyaudio" />
+        <source-file src="src/android/com/blakgeek/cordova/plugin/LowLatencyAudioAsset.java" target-dir="src/com/blakgeek/cordova/plugin/lowlatencyaudio" />
+        <source-file src="src/android/com/blakgeek/cordova/plugin/PolyphonicVoice.java" target-dir="src/com/blakgeek/cordova/plugin/lowlatencyaudio" />
         
      </platform>
      
