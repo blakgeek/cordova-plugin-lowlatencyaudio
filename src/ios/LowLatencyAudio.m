@@ -32,7 +32,9 @@ NSString *PRELOAD_FX_MSG = @"Preloading FX - %@";
 NSString *PRELOAD_AUDIO_MSG = @"Preloading Audio - %@";
 
 - (void)pluginInitialize {
-    // do some init work here.
+    // make sure audio doesn't take over should probably add a flag to control this
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
 }
 
 - (void)preloadFX:(CDVInvokedUrlCommand *)command {
